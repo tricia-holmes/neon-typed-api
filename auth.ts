@@ -68,7 +68,13 @@ passport.use(
     },
     async (token, done) => {
       try {
-        return done(null, token.user)
+        const user = await User.findOne({
+          where: { username: `${token.user.username}` },
+        })
+        if (!user) {
+          return done(null, false, { message: 'User not found' })
+        }
+        return done(null, user)
       } catch (error) {
         done(error)
       }

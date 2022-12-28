@@ -59,7 +59,13 @@ passport_1.default.use(new passport_jwt_1.Strategy({
     jwtFromRequest: passport_jwt_2.ExtractJwt.fromAuthHeaderAsBearerToken(),
 }, (token, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        return done(null, token.user);
+        const user = yield user_1.default.findOne({
+            where: { username: `${token.user.username}` },
+        });
+        if (!user) {
+            return done(null, false, { message: 'User not found' });
+        }
+        return done(null, user);
     }
     catch (error) {
         done(error);

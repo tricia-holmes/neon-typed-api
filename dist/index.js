@@ -16,7 +16,7 @@ require('./auth');
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use('/', routes_1.default);
-app.use('/user', passport_1.default.authenticate('jwt', { session: false }), secure_routes_1.default);
+app.use('/', passport_1.default.authenticate('jwt', { session: false }), secure_routes_1.default);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });

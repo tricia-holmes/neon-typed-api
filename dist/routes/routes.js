@@ -18,17 +18,16 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const router = express_1.default.Router();
 router.post('/signup', passport_1.default.authenticate('signup', { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
-    console.log('HEY');
     if (body.username === '') {
-        return res.status(400).send(`username can't be blank`);
+        return res.status(400).json(`username can't be blank`);
     }
     if (body.username.length <= 3) {
-        return res.status(400).send(`username must be longer than 3 characters`);
+        return res.status(400).json(`username must be longer than 3 characters`);
     }
     if (body.password === '') {
-        return res.status(400).send(`password can't be blank`);
+        return res.status(400).json(`password can't be blank`);
     }
-    res.json({ message: 'Signup sucessful', user: body.user });
+    res.json({ message: 'Signup sucessful', user: body.username });
 }));
 router.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     passport_1.default.authenticate('login', (err, user, info) => __awaiter(void 0, void 0, void 0, function* () {

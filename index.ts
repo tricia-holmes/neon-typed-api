@@ -16,7 +16,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/', routes)
-app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes)
+app.use('/', passport.authenticate('jwt', { session: false }), secureRoutes)
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`)

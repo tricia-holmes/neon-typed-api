@@ -9,21 +9,19 @@ router.post(
   passport.authenticate('signup', { session: false }),
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body
-    console.log('HEY')
-
     if (body.username === '') {
-      return res.status(400).send(`username can't be blank`)
+      return res.status(400).json(`username can't be blank`)
     }
 
     if (body.username.length <= 3) {
-      return res.status(400).send(`username must be longer than 3 characters`)
+      return res.status(400).json(`username must be longer than 3 characters`)
     }
 
     if (body.password === '') {
-      return res.status(400).send(`password can't be blank`)
+      return res.status(400).json(`password can't be blank`)
     }
 
-    res.json({ message: 'Signup sucessful', user: body.user })
+    res.json({ message: 'Signup sucessful', user: body.username })
   }
 )
 
