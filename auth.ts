@@ -38,7 +38,7 @@ passport.use(
         })
 
         if (!foundUser) {
-          return done(null, false, { message: 'User not found' })
+          return done('failed login', null)
         }
 
         const isValidPassword = async (password: string) => {
@@ -49,10 +49,10 @@ passport.use(
         const validate = await isValidPassword(password)
 
         if (!validate) {
-          return done(null, false, { message: 'Wrong Password' })
+          return done('failed login', null)
         }
 
-        return done(null, foundUser, { message: 'Logged in sucessfully' })
+        return done(null, foundUser)
       } catch (error) {
         done(error)
       }

@@ -33,12 +33,13 @@ router.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, func
     passport_1.default.authenticate('login', (err, user, info) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             if (err || !user) {
-                const error = new Error('An error occured.');
-                return next(error);
+                res.status(400);
+                return res.send({ message: 'invalid username or password' });
             }
             req.login(user, { session: false }, (error) => __awaiter(void 0, void 0, void 0, function* () {
                 if (error) {
-                    return next(error);
+                    res.status(400);
+                    return res.send({ message: 'invalid username or password' });
                 }
                 const body = { _id: user._id, username: user.username };
                 const token = jsonwebtoken_1.default.sign({ user: body }, 'TOP_SECRET');

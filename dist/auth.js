@@ -38,7 +38,7 @@ passport_1.default.use('login', new passport_local_1.Strategy({ usernameField: '
             where: { username: `${username}` },
         });
         if (!foundUser) {
-            return done(null, false, { message: 'User not found' });
+            return done('failed login', null);
         }
         const isValidPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
             const compare = yield bcrypt_1.default.compare(password, foundUser.password);
@@ -46,9 +46,9 @@ passport_1.default.use('login', new passport_local_1.Strategy({ usernameField: '
         });
         const validate = yield isValidPassword(password);
         if (!validate) {
-            return done(null, false, { message: 'Wrong Password' });
+            return done('failed login', null);
         }
-        return done(null, foundUser, { message: 'Logged in sucessfully' });
+        return done(null, foundUser);
     }
     catch (error) {
         done(error);

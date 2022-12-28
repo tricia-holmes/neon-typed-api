@@ -31,14 +31,14 @@ router.post(
     passport.authenticate('login', async (err, user, info) => {
       try {
         if (err || !user) {
-          const error = new Error('An error occured.')
-
-          return next(error)
+          res.status(400)
+          return res.send({ message: 'invalid username or password' })
         }
 
         req.login(user, { session: false }, async (error) => {
           if (error) {
-            return next(error)
+            res.status(400)
+            return res.send({ message: 'invalid username or password' })
           }
 
           const body = { _id: user._id, username: user.username }
