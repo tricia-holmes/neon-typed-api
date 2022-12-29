@@ -6,45 +6,53 @@ import {
   DataTypes,
 } from 'sequelize'
 import { sequelize } from '..'
-import TypingTest from './typingTest'
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+class TypingTest extends Model<
+  InferAttributes<TypingTest>,
+  InferCreationAttributes<TypingTest>
+> {
   declare id: CreationOptional<number>
-  declare username: string
-  declare password: string
+  declare userId: string
+  declare wpm: number
+  declare accuracy: number
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>
 
   toJSON(): any {
     const values = Object.assign({}, this.get()) as any
-    delete values.password
     delete values.id
+    delete values.userId
     return values
   }
 }
 
-User.init(
+TypingTest.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
-      type: DataTypes.STRING,
-      unique: true,
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
     },
-    password: {
-      type: DataTypes.STRING,
+    wpm: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    accuracy: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
-  { tableName: 'users', underscored: true, sequelize }
+  { tableName: 'typing_tests', underscored: true, sequelize }
 )
 
-User.hasMany(TypingTest)
-TypingTest.belongsTo(User)
-
-export default User
+export default TypingTest
