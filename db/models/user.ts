@@ -6,6 +6,7 @@ import {
   DataTypes,
 } from 'sequelize'
 import { sequelize } from '..'
+import TypingTest from './typingTest'
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>
@@ -42,5 +43,8 @@ User.init(
   },
   { tableName: 'users', underscored: true, sequelize }
 )
+
+User.hasMany(TypingTest)
+TypingTest.belongsTo(User)
 
 export default User
