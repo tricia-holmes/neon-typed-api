@@ -22,6 +22,8 @@ class TypingTest extends Model<
     const values = Object.assign({}, this.get()) as any
     delete values.id
     delete values.userId
+    delete values.UserId
+    delete values.updatedAt
     return values
   }
 }

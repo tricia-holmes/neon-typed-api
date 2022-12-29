@@ -18,7 +18,7 @@ router.get('/words', (req: Request, res: Response) => {
   })
 })
 
-router.post('/typing-test', async (req: Request, res: Response) => {
+router.post('/typing-tests', async (req: Request, res: Response) => {
   const currentUser = req.user as any
   const { wpm, accuracy } = req.body
 
@@ -31,6 +31,17 @@ router.post('/typing-test', async (req: Request, res: Response) => {
   const typingTest = await TypingTests.create(newTypingTest)
 
   res.json(typingTest)
+})
+
+router.get('/typing-tests', async (req: Request, res: Response) => {
+  const currentUser = req.user as any
+
+  const typingTests = await TypingTests.findAll({
+    where: { userId: currentUser.id },
+    order: [['createdAt', 'DESC']],
+  })
+
+  res.json(typingTests)
 })
 
 export default router
