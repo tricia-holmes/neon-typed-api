@@ -6,28 +6,6 @@ import { Strategy as JWTstrategy } from 'passport-jwt'
 import { ExtractJwt as ExtractJWT } from 'passport-jwt'
 
 passport.use(
-  'signup',
-  new localStrategy(
-    { usernameField: 'username', passwordField: 'password' },
-    async (username, password, done) => {
-      try {
-        const salt = await bcrypt.genSalt(10)
-        const newUser = {
-          username: username as string,
-          password: await bcrypt.hash(password, salt),
-        }
-
-        const created_user = await User.create(newUser)
-
-        return done(null, created_user)
-      } catch (error) {
-        done(error)
-      }
-    }
-  )
-)
-
-passport.use(
   'login',
   new localStrategy(
     { usernameField: 'username', passwordField: 'password' },

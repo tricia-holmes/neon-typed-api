@@ -18,20 +18,6 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_1 = __importDefault(require("./db/models/user"));
 const passport_jwt_1 = require("passport-jwt");
 const passport_jwt_2 = require("passport-jwt");
-passport_1.default.use('signup', new passport_local_1.Strategy({ usernameField: 'username', passwordField: 'password' }, (username, password, done) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const salt = yield bcrypt_1.default.genSalt(10);
-        const newUser = {
-            username: username,
-            password: yield bcrypt_1.default.hash(password, salt),
-        };
-        const created_user = yield user_1.default.create(newUser);
-        return done(null, created_user);
-    }
-    catch (error) {
-        done(error);
-    }
-})));
 passport_1.default.use('login', new passport_local_1.Strategy({ usernameField: 'username', passwordField: 'password' }, (username, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const foundUser = yield user_1.default.findOne({

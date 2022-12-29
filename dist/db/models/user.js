@@ -6,6 +6,7 @@ class User extends sequelize_1.Model {
     toJSON() {
         const values = Object.assign({}, this.get());
         delete values.password;
+        delete values.id;
         return values;
     }
 }
@@ -17,7 +18,7 @@ User.init({
     },
     username: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
+        unique: true,
     },
     password: {
         type: sequelize_1.DataTypes.STRING,

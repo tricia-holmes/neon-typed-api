@@ -15,19 +15,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const user_1 = __importDefault(require("../db/models/user"));
 const router = express_1.default.Router();
-router.post('/signup', passport_1.default.authenticate('signup', { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const body = req.body;
-    if (body.username === '') {
-        return res.status(400).json(`username can't be blank`);
+router.post('/signup', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    if (username.length <= 3) {
+        return res
+            .status(400)
+            .json({ message: `username must be longer than 3 characters` });
     }
-    if (body.username.length <= 3) {
-        return res.status(400).json(`username must be longer than 3 characters`);
+    if (password.length <= 5) {
+        return res
+            .status(400)
+            .json({ message: `password must be longer than 5 characters` });
     }
-    if (body.password === '') {
-        return res.status(400).json(`password can't be blank`);
+    const foundUser = yield user_1.default.findOne({ where: { username: `${username}` } });
+    if (foundUser) {
+        return res.status(400).json({ message: `username is already in use.` });
     }
-    res.json({ message: 'Signup sucessful', user: body.username });
+    const salt = yield bcrypt_1.default.genSalt(10);
+    const newUser = {
+        username: username,
+        password: yield bcrypt_1.default.hash(password, salt),
+    };
+    const user = yield user_1.default.create(newUser);
+    res.json(user);
 }));
 router.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     passport_1.default.authenticate('login', (err, user, info) => __awaiter(void 0, void 0, void 0, function* () {
