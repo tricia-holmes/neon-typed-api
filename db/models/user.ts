@@ -17,6 +17,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   toJSON(): any {
     const values = Object.assign({}, this.get()) as any
     delete values.password
+    delete values.id
     return values
   }
 }
@@ -30,7 +31,7 @@ User.init(
     },
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
