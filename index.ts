@@ -1,24 +1,22 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express, Request, Response, NextFunction } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import randomWords from 'random-words'
+import passport from 'passport'
+import routes from './routes/routes'
+import secureRoutes from './routes/secure-routes'
 
 dotenv.config()
 
 const app: Express = express()
 const port = process.env.PORT
 
+require('./auth')
+
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + Typescript Server')
-})
-
-app.get('/words', (req: Request, res: Response) => {
-  const words = randomWords(250)
-  res.json(words)
-})
+app.use('/', routes)
+app.use('/', passport.authenticate('jwt', { session: false }), secureRoutes)
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`)
