@@ -22,6 +22,7 @@ const envConfig: any = {
     dialect: 'postgres',
   },
   production: {
+    url: process.env.DATABASE_URL,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
@@ -33,7 +34,6 @@ const envConfig: any = {
 
 const env = process.env.NODE_ENV || 'development'
 const config = envConfig[env]
-console.log(config)
 const sequelize = config.url
   ? new Sequelize(config.url, config)
   : new Sequelize(config.database, config.username, config.password, config)
