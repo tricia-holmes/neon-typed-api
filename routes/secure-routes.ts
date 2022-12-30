@@ -23,6 +23,14 @@ router.post('/typing-tests', async (req: Request, res: Response) => {
   const currentUser = req.user as any
   const { wpm, accuracy } = req.body
 
+  if ( wpm !== 0 && !wpm) {
+    return res.status(400).json({ message: `wpm is not defined` })
+  }
+
+  if (accuracy !== 0 && !accuracy) {
+    return res.status(400).json({ message: `accuracy is not defined` })
+  }
+
   const newTypingTest: any = {
     wpm,
     accuracy,
