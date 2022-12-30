@@ -3,39 +3,23 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const envConfig: any = {
+const envConfig = {
   development: {
-    url: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    url: process.env.DATABASE_URL,
     dialect: 'postgres',
   },
   test: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    url: process.env.DATABASE_URL,
     dialect: 'postgres',
   },
   production: {
     url: process.env.DATABASE_URL,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
     dialect: 'postgres',
   },
-}
+} as any
 
 const env = process.env.NODE_ENV || 'development'
 const config = envConfig[env]
-const sequelize = config.url
-  ? new Sequelize(config.url, config)
-  : new Sequelize(config.database, config.username, config.password, config)
+const sequelize = new Sequelize(config.url, config)
 
 export { Sequelize, sequelize }
