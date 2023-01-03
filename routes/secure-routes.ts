@@ -23,7 +23,7 @@ router.post('/typing-tests', async (req: Request, res: Response) => {
   const currentUser = req.user as any
   const { wpm, accuracy } = req.body
 
-  if ( wpm !== 0 && !wpm) {
+  if (wpm !== 0 && !wpm) {
     return res.status(400).json({ message: `wpm is not defined` })
   }
 
@@ -55,15 +55,18 @@ router.get('/typing-tests', async (req: Request, res: Response) => {
 
 router.get('/typing-tests/highscores', async (req: Request, res: Response) => {
   const typingTests = await sequelize.query(
-    `SELECT * 
-     FROM 
-      (
-        SELECT DISTINCT ON (username) username, wpm, tt.created_at 
-        FROM typing_tests AS tt 
-        JOIN users ON users.id = tt.user_id 
-        ORDER BY username DESC LIMIT 10
-      ) AS top_results 
-     ORDER BY top_results.wpm DESC`,
+    `
+    SELECT username, wpm, accuracy, top_scores.created_at
+    FROM (
+      SELECT DISTINCT ON (user_id) * 
+      FROM typing_tests
+      ORDER BY user_id, wpm DESC
+      LIMIT 10
+    ) AS top_scores
+    JOIN users
+    ON top_scores.user_id = users.id
+    ORDER BY top_scores.wpm DESC 
+    `,
     {
       model: TypingTest,
       mapToModel: true,
