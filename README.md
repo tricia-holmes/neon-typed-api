@@ -36,7 +36,7 @@ This is the API for [Neon Typed](https://github.com/tricia-holmes/neon-typed) - 
 ## Getting Started
 
 ### Prerequisites
-* Before the setup steps, please make sure to have [Docker downloaded](https://docs.docker.com/get-docker/).
+* Before the setup steps, make sure to have [Docker downloaded](https://docs.docker.com/get-docker/).
 
 ### Setup
 1. Clone the repo
@@ -51,7 +51,7 @@ This is the API for [Neon Typed](https://github.com/tricia-holmes/neon-typed) - 
    ```sh
    npm run dev
    ```
-4. Run Postgres through Docker Compose
+4. Run Postgres through Docker
    ```sh
    docker compose up
    ```
