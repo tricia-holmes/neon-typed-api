@@ -1,5 +1,3 @@
-# neon-typed-api
-
 <!-- PROJECT LOGO -->
 ---
 
