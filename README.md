@@ -55,6 +55,10 @@ This is the API for [Neon Typed](https://github.com/tricia-holmes/neon-typed) - 
    ```sh
    docker compose up
    ```
+5. Run your migration
+   ```sh
+   npm run migrate
+   ```
 
 
 <!-- CONTACT -->
